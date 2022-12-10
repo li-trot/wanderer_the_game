@@ -1,5 +1,5 @@
 """Path class. To create tile."""
-from tkinter import Tk, Canvas
+from tkinter import NW
 from PIL import Image, ImageTk
 from Brick import Brick
 
@@ -21,6 +21,7 @@ class Path(Brick):
         self.load_assets()
         self.create_tile()
         self.monster = False
+        self.wall = False
 
     def occupy(self):
         """Whether there is something on the path."""
@@ -38,4 +39,4 @@ class Path(Brick):
     def create_tile(self):
         """Create tile path."""
         self.canvas.create_image(
-            self.x_pos, self.y_pos, image=self.tile, tag="path")
+            self.x_pos, self.y_pos, image=self.tile, anchor=NW)

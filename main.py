@@ -1,8 +1,9 @@
 """Module to draw rectangle in Canvas and function to manipulate with it."""
 
-from tkinter import Canvas, Tk
+from tkinter import *
 from PIL import Image
 from Path import Path
+from Floor import Floor
 
 
 class Wonderer():
@@ -13,33 +14,35 @@ class Wonderer():
         width, height - for canvas.
         create canvas
         area_number - integer - counter of level of the game."""
+        self.area_number = 1
         self.img_tile = Image.open("pictures/floor.png")
         self.width_step = self.img_tile.width
         self.height_step = self.img_tile.height
         self.width = self.cal_width()
         self.height = self.cal_height()
-        self.root = Tk()
-        self.canvas = Canvas(self.root, width=self.width,
-                             height=self.height, background="gray")
-        self.area_number = 1
+        self.floor = None
 
     def cal_width(self):
         """Calculates width of canvas."""
-        side = self.img_tile.width * 10
+        side = (self.img_tile.width * 10)
         return side
 
     def cal_height(self):
         """Calculates height of canvas."""
-        side = self.img_tile.height * 10
+        side = (self.img_tile.height * 10)
         return side
 
     def start_game(self):
         """Launching the game."""
-        self.root.title("Wanderer")
-        first_tile = Path(self.canvas, int(self.width/2), int(self.height/2))
-        self.root.resizable(False, False)
-        self.canvas.pack()
-        self.root.mainloop()
+        root = Tk()
+        root.title("Wanderer")
+        root.resizable(False, False)
+
+        canvas = Canvas(root, width=self.width+2,
+                        height=self.height+2, background="green")
+        canvas.pack()
+        self.floor = Floor(canvas, self.width, self.height)
+        root.mainloop()
 
 
 if __name__ == "__main__":
