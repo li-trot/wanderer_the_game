@@ -1,6 +1,7 @@
 """Floor class. To generate 10*10 tiles floor."""
 
 from Path import Path
+from Wall import Wall
 
 
 class Floor():
@@ -39,3 +40,32 @@ class Floor():
                 self.keep[num_y].update(new_pair)
                 x_position += self.width_step
             y_position += self.height_step
+
+    def get_coordinates(self, raw, column):
+        spot = []
+        x = self.keep[raw][column].get_x()
+        spot.append(x)
+        y = self.keep[raw][column].get_y()
+        spot.append(y)
+        return spot
+
+    def add_wall(self, raw, column):
+        coordin = self.get_coordinates(raw, column)
+        x_cor, y_cor = coordin
+        self.keep[raw][column] = Wall(self.canvas, x_cor, y_cor)
+
+    def wall_1(self):
+        list_wall = [
+            [1, 4], [2, 4], [2, 6], [2, 8], [2, 9],
+            [3, 2], [3, 3], [3, 4], [3, 6],
+            [3, 8], [3, 9], [4, 6], [5, 1], [5, 2],
+            [5, 3], [5, 4], [5, 6], [5, 7],
+            [5, 8], [5, 9], [6, 2], [6, 4], [7, 2],
+            [7, 4], [7, 6], [7, 7], [7, 9],
+            [8, 6], [8, 7], [8, 9], [9, 2], [9, 3],
+            [9, 4], [9, 9], [10, 4], [10, 6], [10, 7]
+        ]
+
+        for elem in list_wall:
+            row, col = elem
+            self.add_wall(row, col)

@@ -38,3 +38,11 @@ class Brick():
         if self.crossability:
             return True
         return False
+
+    def get_x(self):
+        """Returns x coordinate."""
+        return self.x_pos
+
+    def get_y(self):
+        """Returns y coordinate."""
+        return self.y_pos

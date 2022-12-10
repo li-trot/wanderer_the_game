@@ -42,6 +42,7 @@ class Wonderer():
                         height=self.height+2, background="green")
         canvas.pack()
         self.floor = Floor(canvas, self.width, self.height)
+        self.floor.wall_1()
         root.mainloop()
 
 

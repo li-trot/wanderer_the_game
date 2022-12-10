@@ -21,7 +21,6 @@ class Path(Brick):
         self.load_assets()
         self.create_tile()
         self.monster = False
-        self.wall = False
 
     def occupy(self):
         """Whether there is something on the path."""
