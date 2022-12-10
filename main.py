@@ -1,60 +1,47 @@
-from tkinter import *
+"""Module to draw rectangle in Canvas and function to manipulate with it."""
+
+from tkinter import Canvas, Tk
+from PIL import Image
+from Path import Path
 
 
-class Box(object):
-    """Class for drawing a rectangle inside canvas."""
+class Wonderer():
+    """The game Wonderer."""
 
     def __init__(self):
-        """Initialise Box with coordinate parameters."""
-        self.test_box_x = 0
-        self.test_box_y = 0
+        """Initialise Wonderer with:
+        width, height - for canvas.
+        create canvas
+        area_number - integer - counter of level of the game."""
+        self.img_tile = Image.open("pictures/floor.png")
+        self.width_step = self.img_tile.width
+        self.height_step = self.img_tile.height
+        self.width = self.cal_width()
+        self.height = self.cal_height()
+        self.root = Tk()
+        self.canvas = Canvas(self.root, width=self.width,
+                             height=self.height, background="gray")
+        self.area_number = 1
 
-    def draw(self, canvas_board):
-        """Draw rectangle on new position."""
-        canvas_board.create_rectangle(0, 0, 600, 600, fill='white')
-        canvas_board.create_rectangle(self.test_box_x, self.test_box_y,
-                                      self.test_box_x+100, self.test_box_y+100, fill='lime green')
+    def cal_width(self):
+        """Calculates width of canvas."""
+        side = self.img_tile.width * 10
+        return side
 
+    def cal_height(self):
+        """Calculates height of canvas."""
+        side = self.img_tile.height * 10
+        return side
 
-# Create the tk environment as usual
-WIDTH = 600
-HEIGHT = 600
-root = Tk()
-canvas = Canvas(root, width=WIDTH, height=HEIGHT)
-
-# Creating a box that can draw itself in a certain position
-box = Box()
-
-# Create a function that can be called when a key pressing happens
-
-
-def on_key_press(enter):
-    """When arrows are pressed the box moves i appropriate way on 100."""
-    if enter.keycode == 38:
-        if box.test_box_y - 100 >= 0:
-            box.test_box_y = box.test_box_y - 100
-    elif enter.keycode == 40:
-        if box.test_box_y + 100 <= HEIGHT - 100:
-            box.test_box_y = box.test_box_y + 100
-    elif enter.keycode == 39:
-        if box.test_box_x + 100 <= WIDTH - 100:
-            box.test_box_x = box.test_box_x + 100
-    elif enter.keycode == 37:
-        if box.test_box_x - 100 >= 0:
-            box.test_box_x = box.test_box_x - 100
-    # and lower if the key that was pressed the down arrow
-    # draw the box again in the new position
-    box.draw(canvas)
+    def start_game(self):
+        """Launching the game."""
+        self.root.title("Wanderer")
+        first_tile = Path(self.canvas, int(self.width/2), int(self.height/2))
+        self.root.resizable(False, False)
+        self.canvas.pack()
+        self.root.mainloop()
 
 
-# Tell the canvas that we prepared a function that can deal with the key press events
-canvas.bind("<KeyPress>", on_key_press)
-canvas.pack()
-
-# Select the canvas to be in focused so it actually recieves the key hittings
-canvas.focus_set()
-
-# Draw the box in the initial position
-box.draw(canvas)
-
-root.mainloop()
+if __name__ == "__main__":
+    firstGame = Wonderer()
+    firstGame.start_game()
