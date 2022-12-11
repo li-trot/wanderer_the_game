@@ -5,6 +5,8 @@ from PIL import Image
 from Path import Path
 from Floor import Floor
 from Hero import Hero
+from Text import Text
+from random import randint
 
 
 class Wonderer():
@@ -27,6 +29,7 @@ class Wonderer():
         self.hero = None
         self.rect = None
         self.hero_act = None
+        self.text = None
 
     def cal_width(self):
         """Calculates width of canvas."""
@@ -42,27 +45,42 @@ class Wonderer():
         """Launching the game."""
         root = Tk()
         root.title("Wanderer")
+        root.geometry("722x752")
         root.resizable(False, False)
+        root.configure(background='black')
 
         self.canvas = Canvas(root, width=self.width,
-                             height=self.height, background="green")
+                             height=self.height+30, background="black")
+        self.canvas.create_rectangle(0, 720, self.width,
+                                     (self.height+30), fill="white")
 
         self.canvas.bind("<KeyPress>", self.on_key_press)
-        self.canvas.pack()
+        self.canvas.pack(anchor=CENTER, expand=True)
         self.canvas.focus_set()
+
         self.floor = Floor(self.canvas, self.width,
                            self.height, self.area_number)
         self.floor.wall_1()
-        self.hero = Hero(self.canvas, 50, 10, 10)
+        self.add_hero()
+
         self.hero_act = self.canvas.create_image(
             self.hero.x_pos, self.hero.y_pos, image=self.hero.image, anchor=NW, tag="hero")
-        self.floor.path_only()
+
+        self.text = Text(self.canvas, self.hero, self.width, self.height)
+        self.text.print_text(self.area_number)
+
         self.floor.add_monsters(3)
         self.floor.add_boss()
-
         self.floor.create_monsters()
 
         root.mainloop()
+
+    def add_hero(self):
+        """Calculate Hero info."""
+        health_g = 20 + (3 * randint(1, 6))
+        defeat_g = 2 * randint(1, 6)
+        strike_g = 5 + randint(1, 6)
+        self.hero = Hero(self.canvas, health_g, defeat_g, strike_g)
 
     def on_key_press(self, enter):
         """When arrows are pressed the box moves i appropriate way on 100."""
