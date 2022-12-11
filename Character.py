@@ -11,12 +11,14 @@ class Character():
 
     def __init__(self, canvas, type_char, max_health, defend, strike):
         """Initialise element."""
+        self.canvas = canvas
         self.type_char = type_char
         self.max_health = max_health
         self.health = max_health
         self.defend = defend
         self.strike = strike
-        self.canvas = canvas
+        self.x_pos = 0
+        self.y_pos = 0
 
     def is_alive(self):
         """Returns Boolean - whether the character is alive or not."""

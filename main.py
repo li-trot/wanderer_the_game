@@ -50,46 +50,51 @@ class Wonderer():
         self.canvas.bind("<KeyPress>", self.on_key_press)
         self.canvas.pack()
         self.canvas.focus_set()
-        self.floor = Floor(self.canvas, self.width, self.height)
+        self.floor = Floor(self.canvas, self.width,
+                           self.height, self.area_number)
         self.floor.wall_1()
         self.hero = Hero(self.canvas, 50, 10, 10)
         self.hero_act = self.canvas.create_image(
             self.hero.x_pos, self.hero.y_pos, image=self.hero.image, anchor=NW, tag="hero")
+        self.floor.path_only()
+        self.floor.add_monsters(3)
+        self.floor.add_boss()
+
+        self.floor.create_monsters()
 
         root.mainloop()
 
     def on_key_press(self, enter):
         """When arrows are pressed the box moves i appropriate way on 100."""
-        x_key = (self.hero.x_pos / self.width_step) + 1
-        y_key = (self.hero.y_pos / self.height_step) + 1
         # go up
         if enter.keycode in (38, 87):
             self.hero.image = self.hero.hero_up
             if self.hero.y_pos - self.height_step >= 0:
-                if self.floor.check_what(x_key, y_key - 1):
+                if self.floor.check_cross(self.hero.x_pos, self.hero.y_pos - self.height_step):
                     self.hero.y_pos = self.hero.y_pos - self.height_step
         # go down
         elif enter.keycode in (40, 83):
             self.hero.image = self.hero.hero_down
             if self.hero.y_pos + self.height_step <= self.height - self.height_step:
-                if self.floor.check_what(x_key, y_key + 1):
+                if self.floor.check_cross(self.hero.x_pos, self.hero.y_pos + self.height_step):
                     self.hero.y_pos = self.hero.y_pos + self.height_step
         # go right
         elif enter.keycode in (39, 68):
             self.hero.image = self.hero.hero_right
             if self.hero.x_pos + self.width_step <= self.width - self.width_step:
-                if self.floor.check_what(x_key + 1, y_key):
+                if self.floor.check_cross(self.hero.x_pos + self.width_step, self.hero.y_pos):
                     self.hero.x_pos = self.hero.x_pos + self.height_step
         # go left
         elif enter.keycode in (37, 65):
             self.hero.image = self.hero.hero_left
             if self.hero.x_pos - self.width_step >= 0:
-                if self.floor.check_what(x_key - 1, y_key):
+                if self.floor.check_cross(self.hero.x_pos - self.width_step, self.hero.y_pos):
                     self.hero.x_pos = self.hero.x_pos - self.height_step
         # and lower if the key that was pressed the down arrow
         self.canvas.delete("hero")
         self.hero_act = self.canvas.create_image(
             self.hero.x_pos, self.hero.y_pos, image=self.hero.image, anchor=NW, tag="hero")
+
 
 # Select the canvas to be in focused so it actually receives the key hitting.
 # Draw the box in the initial position
