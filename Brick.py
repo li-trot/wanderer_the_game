@@ -35,7 +35,7 @@ class Brick():
     def check_cross(self):
         """Check the crossability of brick.
         Returns True/False."""
-        if self.crossability:
+        if self.crossability is True:
             return True
         return False
 

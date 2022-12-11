@@ -38,4 +38,4 @@ class Path(Brick):
     def create_tile(self):
         """Create tile path."""
         self.canvas.create_image(
-            self.x_pos, self.y_pos, image=self.tile, anchor=NW)
+            self.x_pos, self.y_pos, image=self.tile, anchor=NW, tag="path")

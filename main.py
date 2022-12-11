@@ -4,10 +4,13 @@ from tkinter import *
 from PIL import Image
 from Path import Path
 from Floor import Floor
+from Hero import Hero
 
 
 class Wonderer():
     """The game Wonderer."""
+
+    tile = Image.open("pictures/floor.png")
 
     def __init__(self):
         """Initialise Wonderer with:
@@ -15,21 +18,24 @@ class Wonderer():
         create canvas
         area_number - integer - counter of level of the game."""
         self.area_number = 1
-        self.img_tile = Image.open("pictures/floor.png")
-        self.width_step = self.img_tile.width
-        self.height_step = self.img_tile.height
+        self.canvas = None
+        self.width_step = self.tile.width
+        self.height_step = self.tile.height
         self.width = self.cal_width()
         self.height = self.cal_height()
         self.floor = None
+        self.hero = None
+        self.rect = None
+        self.hero_act = None
 
     def cal_width(self):
         """Calculates width of canvas."""
-        side = (self.img_tile.width * 10)
+        side = (self.tile.width * 10)
         return side
 
     def cal_height(self):
         """Calculates height of canvas."""
-        side = (self.img_tile.height * 10)
+        side = (self.tile.height * 10)
         return side
 
     def start_game(self):
@@ -38,12 +44,55 @@ class Wonderer():
         root.title("Wanderer")
         root.resizable(False, False)
 
-        canvas = Canvas(root, width=self.width+2,
-                        height=self.height+2, background="green")
-        canvas.pack()
-        self.floor = Floor(canvas, self.width, self.height)
+        self.canvas = Canvas(root, width=self.width,
+                             height=self.height, background="green")
+
+        self.canvas.bind("<KeyPress>", self.on_key_press)
+        self.canvas.pack()
+        self.canvas.focus_set()
+        self.floor = Floor(self.canvas, self.width, self.height)
         self.floor.wall_1()
+        self.hero = Hero(self.canvas, 50, 10, 10)
+        self.hero_act = self.canvas.create_image(
+            self.hero.x_pos, self.hero.y_pos, image=self.hero.image, anchor=NW, tag="hero")
+
         root.mainloop()
+
+    def on_key_press(self, enter):
+        """When arrows are pressed the box moves i appropriate way on 100."""
+        x_key = (self.hero.x_pos / self.width_step) + 1
+        y_key = (self.hero.y_pos / self.height_step) + 1
+        # go up
+        if enter.keycode in (38, 87):
+            self.hero.image = self.hero.hero_up
+            if self.hero.y_pos - self.height_step >= 0:
+                if self.floor.check_what(x_key, y_key - 1):
+                    self.hero.y_pos = self.hero.y_pos - self.height_step
+        # go down
+        elif enter.keycode in (40, 83):
+            self.hero.image = self.hero.hero_down
+            if self.hero.y_pos + self.height_step <= self.height - self.height_step:
+                if self.floor.check_what(x_key, y_key + 1):
+                    self.hero.y_pos = self.hero.y_pos + self.height_step
+        # go right
+        elif enter.keycode in (39, 68):
+            self.hero.image = self.hero.hero_right
+            if self.hero.x_pos + self.width_step <= self.width - self.width_step:
+                if self.floor.check_what(x_key + 1, y_key):
+                    self.hero.x_pos = self.hero.x_pos + self.height_step
+        # go left
+        elif enter.keycode in (37, 65):
+            self.hero.image = self.hero.hero_left
+            if self.hero.x_pos - self.width_step >= 0:
+                if self.floor.check_what(x_key - 1, y_key):
+                    self.hero.x_pos = self.hero.x_pos - self.height_step
+        # and lower if the key that was pressed the down arrow
+        self.canvas.delete("hero")
+        self.hero_act = self.canvas.create_image(
+            self.hero.x_pos, self.hero.y_pos, image=self.hero.image, anchor=NW, tag="hero")
+
+# Select the canvas to be in focused so it actually receives the key hitting.
+# Draw the box in the initial position
 
 
 if __name__ == "__main__":

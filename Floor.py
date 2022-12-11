@@ -30,10 +30,10 @@ class Floor():
 
     def generate_floor(self):
         """Generation of floor."""
-        y_position = 3
+        y_position = 0
         for num_y in range(1, 11):
             self.keep[num_y] = {}
-            x_position = 3
+            x_position = 0
             for num_x in range(1, 11):
                 tile = Path(self.canvas, x_position, y_position)
                 new_pair = {num_x: tile}
@@ -69,3 +69,10 @@ class Floor():
         for elem in list_wall:
             row, col = elem
             self.add_wall(row, col)
+
+    def check_what(self, x_f, y_f):
+        """Checks what type of object on that position."""
+        obj = self.keep[y_f][x_f]
+        print(obj.type)
+        print(obj.check_cross())
+        return obj.check_cross()

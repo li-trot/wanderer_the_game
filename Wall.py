@@ -20,6 +20,7 @@ class Wall(Brick):
         super().__init__(canvas_board, "wall", x_coord, y_coord)
         self.load_assets()
         self.create_wall()
+        self.crossability = False
 
     def load_assets(self):
         """Loading the image of wall."""
@@ -32,4 +33,4 @@ class Wall(Brick):
     def create_wall(self):
         """Create wall brick."""
         self.canvas.create_image(
-            self.x_pos, self.y_pos, image=self.wall, anchor=NW)
+            self.x_pos, self.y_pos, image=self.wall, anchor=NW, tag="wall")
