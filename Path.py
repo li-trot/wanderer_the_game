@@ -1,7 +1,7 @@
 """Path class. To create tile."""
 from tkinter import NW
 from PIL import Image, ImageTk
-from Brick import Brick
+from brick import Brick
 
 
 class Path(Brick):
@@ -21,11 +21,6 @@ class Path(Brick):
         self.load_assets()
         self.create_tile()
         self.monster = False
-
-    def occupy(self):
-        """Whether there is something on the path."""
-        self.crossability = False
-        self.monster = True
 
     def load_assets(self):
         """Loading the image of tile."""

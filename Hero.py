@@ -1,19 +1,21 @@
 """Hero class."""
 
-from tkinter import *
+from tkinter import NW
 from PIL import Image, ImageTk
-from Character import Character
+from character import Character
 
 
 class Hero(Character):
     """Hero class."""
 
     def __init__(self, canvas, max_health, defend, strike):
-        super().__init__(canvas, "hero", max_health, defend, strike)
-        self.x_pos = 0
-        self.y_pos = 0
+        """Initialise Hero class."""
+        super().__init__(canvas, "Hero", max_health, defend, strike)
         self.load_assets()
         self.image = self.hero_down
+        self.key = False
+        self.kill_boss = False
+        self.move = True
 
     def load_assets(self):
         """Loading the image of tile."""
@@ -32,3 +34,9 @@ class Hero(Character):
 
         except IOError as error:
             print(error)
+
+    def draw(self):
+        "Draw the hero."
+        if self.health > 0:
+            self.canvas.create_image(
+                self.x_pos, self.y_pos, image=self.image, anchor=NW, tag="hero")

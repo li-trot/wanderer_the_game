@@ -28,16 +28,9 @@ class Brick():
         if self.type == "path":
             self.crossability = True
         elif self.type == "wall":
-            self.crossability = True
+            self.crossability = False
         else:
             raise ValueError("Type of brick could be only 'path' or 'wall'.")
-
-    def check_cross(self):
-        """Check the crossability of brick.
-        Returns True/False."""
-        if self.crossability is True:
-            return True
-        return False
 
     def get_x(self):
         """Returns x coordinate."""

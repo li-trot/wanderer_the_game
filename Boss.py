@@ -1,8 +1,7 @@
 """Class Boss."""
 
-from tkinter import *
 from PIL import Image, ImageTk
-from Character import Character
+from character import Character
 
 
 class Boss(Character):
@@ -10,7 +9,7 @@ class Boss(Character):
 
     def __init__(self, canvas, max_health, defend, strike):
         """Initialise Boss class."""
-        super().__init__(canvas, "boss", max_health, defend, strike)
+        super().__init__(canvas, "Boss", max_health, defend, strike)
         self.load_assets()
         self.image = self.boss
 

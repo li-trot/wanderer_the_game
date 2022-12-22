@@ -1,7 +1,7 @@
 """Class Wall. You can't cross it."""
 from tkinter import NW
 from PIL import Image, ImageTk
-from Brick import Brick
+from brick import Brick
 
 
 class Wall(Brick):
