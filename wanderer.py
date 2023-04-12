@@ -1,4 +1,4 @@
-"""The main class of the game."""
+"""The main class of the game. Let's start."""
 
 from tkinter import Tk, Canvas, CENTER
 from PIL import Image
